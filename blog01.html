@@ -1,0 +1,251 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>A minimal Django file upload example &#8212; suhail blog 1 documentation</title>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mail setup on django using Gmail" href="blog02.html" />
+    <link rel="prev" title="Welcome to Suhail’s Blog!" href="index.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="a-minimal-django-file-upload-example">
+<h1>A minimal Django file upload example<a class="headerlink" href="#a-minimal-django-file-upload-example" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-a-django-project">
+<h2>1. Create a django project<a class="headerlink" href="#create-a-django-project" title="Permalink to this headline">¶</a></h2>
+<p><strong>Create a django project: django-admin.py startproject sample</strong></p>
+<p>now a folder(<strong>sample</strong>) is created:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sample</span><span class="o">/</span>
+        <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">sample</span><span class="o">/</span>
+                <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">wsgi</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-settings-py-and-urls-py">
+<h2>2. Update settings.py and urls.py<a class="headerlink" href="#update-settings-py-and-urls-py" title="Permalink to this headline">¶</a></h2>
+<p><strong>On `settings.py` add:</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;media&#39;</span><span class="p">)</span>
+<span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s1">&#39;/media/&#39;</span>
+</pre></div>
+</div>
+<p><strong>`urls.py` add:</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...&lt;</span><span class="n">other</span> <span class="n">imports</span><span class="o">&gt;...</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.conf.urls.static</span> <span class="k">import</span> <span class="n">static</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^upload/$&#39;</span><span class="p">,</span> <span class="s1">&#39;uploader.views.home&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;imageupload&#39;</span><span class="p">),</span>
+        <span class="o">...&lt;</span><span class="n">other</span> <span class="n">url</span> <span class="n">patterns</span><span class="o">&gt;...</span>
+<span class="p">)</span><span class="o">+</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-an-app">
+<h2>3. create an app<a class="headerlink" href="#create-an-app" title="Permalink to this headline">¶</a></h2>
+<p><strong>Create an app: `python manage.py startapp uploader`</strong></p>
+<p><strong>Now a folder(`uploader`) with these files are created:</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">uploader</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">models</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">tests</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">views</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-settings-py">
+<h2>4. Update settings.py<a class="headerlink" href="#update-settings-py" title="Permalink to this headline">¶</a></h2>
+<p><strong>On `setting.py` -&gt; `INSTALLED_APPS` add `’uploader’,`, ie:</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="o">...</span>
+        <span class="s1">&#39;uploader&#39;</span><span class="p">,</span>
+        <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-models">
+<h2>5. Update models<a class="headerlink" href="#update-models" title="Permalink to this headline">¶</a></h2>
+<p><strong>update `models.py`</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.forms</span> <span class="k">import</span> <span class="n">ModelForm</span>
+
+<span class="k">class</span> <span class="nc">Upload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">pic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="n">Image</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">upload_to</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="n">images</span><span class="o">/</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">upload_date</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># FileUpload form class.</span>
+<span class="k">class</span> <span class="nc">UploadForm</span><span class="p">(</span><span class="n">ModelForm</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">Upload</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-views-py">
+<h2>6. Update views.py<a class="headerlink" href="#update-views-py" title="Permalink to this headline">¶</a></h2>
+<p><strong>update `views.py`</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">uploader.models</span> <span class="k">import</span> <span class="n">UploadForm</span><span class="p">,</span><span class="n">Upload</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="c1"># Create your views here.</span>
+<span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="o">==</span><span class="s2">&quot;&quot;</span><span class="n">POST</span><span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">UploadForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                        <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;imageupload&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+                <span class="n">img</span><span class="o">=</span><span class="n">UploadForm</span><span class="p">()</span>
+        <span class="n">images</span><span class="o">=</span><span class="n">Upload</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s1">&#39;home.html&#39;</span><span class="p">,{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span><span class="n">img</span><span class="p">,</span><span class="s1">&#39;images&#39;</span><span class="p">:</span><span class="n">images</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-templates">
+<h2>7. create templates<a class="headerlink" href="#create-templates" title="Permalink to this headline">¶</a></h2>
+<p><strong>Create a folder `templates` and create a file `home.html`:</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="n">padding</span><span class="p">:</span><span class="mi">40</span><span class="n">px</span><span class="p">;</span><span class="n">margin</span><span class="p">:</span><span class="mi">40</span><span class="n">px</span><span class="p">;</span><span class="n">border</span><span class="p">:</span><span class="mi">1</span><span class="n">px</span> <span class="n">solid</span> <span class="c1">#ccc&quot;&quot;&gt;</span>
+        <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">picture</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">form</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="c1">#&quot;&quot; method=&quot;&quot;post&quot;&quot; enctype=&quot;&quot;multipart/form-data&quot;&quot;&gt;</span>
+                <span class="p">{</span><span class="o">%</span> <span class="n">csrf_token</span> <span class="o">%</span><span class="p">}</span> <span class="p">{{</span><span class="n">form</span><span class="p">}}</span>
+                <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="n">submit</span><span class="s2">&quot;&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="n">Upload</span><span class="s2">&quot;&quot;</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">images</span> <span class="o">%</span><span class="p">}</span>
+                <span class="p">{{</span><span class="n">forloop</span><span class="o">.</span><span class="n">counter</span><span class="p">}}</span><span class="o">.&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">{{</span> <span class="n">img</span><span class="o">.</span><span class="n">pic</span><span class="o">.</span><span class="n">url</span> <span class="p">}}</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">img</span><span class="o">.</span><span class="n">pic</span><span class="o">.</span><span class="n">name</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+                <span class="p">({{</span><span class="n">img</span><span class="o">.</span><span class="n">upload_date</span><span class="p">}})</span><span class="o">&lt;</span><span class="n">hr</span> <span class="o">/&gt;</span>
+        <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Final Project tree:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sample</span><span class="o">/</span>
+        <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">sample</span><span class="o">/</span>
+                <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">wsgi</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">uploader</span><span class="o">/</span>
+                <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">views</span><span class="o">.</span><span class="n">py</span>
+                <span class="n">templates</span><span class="o">/</span>
+                        <span class="n">home</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sync-db">
+<h2>8. Sync db<a class="headerlink" href="#sync-db" title="Permalink to this headline">¶</a></h2>
+<p><strong>Syncronize database and runserver</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">syncdb</span>
+<span class="o">&gt;&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span>
+
+<span class="n">visit</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">8000</span><span class="o">&gt;</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">A minimal Django file upload example</a><ul>
+<li><a class="reference internal" href="#create-a-django-project">1. Create a django project</a></li>
+<li><a class="reference internal" href="#update-settings-py-and-urls-py">2. Update settings.py and urls.py</a></li>
+<li><a class="reference internal" href="#create-an-app">3. create an app</a></li>
+<li><a class="reference internal" href="#update-settings-py">4. Update settings.py</a></li>
+<li><a class="reference internal" href="#update-models">5. Update models</a></li>
+<li><a class="reference internal" href="#update-views-py">6. Update views.py</a></li>
+<li><a class="reference internal" href="#create-templates">7. create templates</a></li>
+<li><a class="reference internal" href="#sync-db">8. Sync db</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Suhail’s Blog!</a></li>
+      <li>Next: <a href="blog02.html" title="next chapter">Mail setup on django using Gmail</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/blog01.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, suhail.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/blog01.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

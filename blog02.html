@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mail setup on django using Gmail &#8212; suhail blog 1 documentation</title>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Publish pages in Github" href="blog03.html" />
+    <link rel="prev" title="A minimal Django file upload example" href="blog01.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mail-setup-on-django-using-gmail">
+<h1>Mail setup on django using Gmail<a class="headerlink" href="#mail-setup-on-django-using-gmail" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-an-application-specific-password">
+<h2>Create an Application specific password<a class="headerlink" href="#create-an-application-specific-password" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Visit your [Google Account security page](<a class="reference external" href="https://www.google.com/settings/security">https://www.google.com/settings/security</a>).</li>
+<li>In the <cite>2-Step Verification</cite> box, click <cite>Settings</cite> (if there is no settings link, you may want to create a new one. you can skip step 3 &amp; 4).</li>
+<li>Click the tab for <cite>App-specific passwords</cite>.</li>
+<li>Click <cite>Manage your application specific passwords</cite>.</li>
+<li>Under the <cite>Application-specific passwords</cite> section, enter a descriptive name for the application you want to authorize, such as “”Django gmail”” then click <cite>Generate application-specific password</cite> button.</li>
+<li>note down the password. for example: <cite>smbumqjiurmqrywn</cite> ![password][1]</li>
+</ul>
+</div>
+<div class="section" id="then-update-settings-py">
+<h2>Then update <cite>settings.py</cite>:<a class="headerlink" href="#then-update-settings-py" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s1">&#39;smtp.gmail.com&#39;</span>
+<span class="n">EMAIL_HOST_USER</span> <span class="o">=</span> <span class="s1">&#39;your-username@gmail.com&#39;</span>
+<span class="n">EMAIL_HOST_PASSWORD</span> <span class="o">=</span> <span class="s1">&#39;Application spectific password(for eg: smbumqjiurmqrywn)&#39;</span>
+<span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">587</span>
+<span class="n">EMAIL_USE_TLS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="you-can-use-the-shell-to-test-it">
+<h2>You can use the shell to test it:<a class="headerlink" href="#you-can-use-the-shell-to-test-it" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">shell</span>
+  <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="k">import</span> <span class="n">send_mail</span>
+  <span class="o">&gt;&gt;&gt;</span> <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="s1">&#39;This is a test&#39;</span><span class="p">,</span> <span class="s1">&#39;your@email.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;toemail@email.com&#39;</span><span class="p">],</span>
+       <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">i</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">imgur</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fNxSx</span><span class="o">.</span><span class="n">png</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mail setup on django using Gmail</a><ul>
+<li><a class="reference internal" href="#create-an-application-specific-password">Create an Application specific password</a></li>
+<li><a class="reference internal" href="#then-update-settings-py">Then update <cite>settings.py</cite>:</a></li>
+<li><a class="reference internal" href="#you-can-use-the-shell-to-test-it">You can use the shell to test it:</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="blog01.html" title="previous chapter">A minimal Django file upload example</a></li>
+      <li>Next: <a href="blog03.html" title="next chapter">Publish pages in Github</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/blog02.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, suhail.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/blog02.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
