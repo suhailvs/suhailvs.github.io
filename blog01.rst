@@ -5,87 +5,91 @@ A minimal Django file upload example
 1. Create a django project
 --------------------------
 
-**Create a django project: django-admin.py startproject sample**
+Run startproject::
+
+    $ django-admin.py startproject sample
 
 now a folder(**sample**) is created::
 	
 	sample/
-		manage.py
-		sample/
-			__init__.py
-			settings.py
-			urls.py
-			wsgi.py	
+	  manage.py
+	  sample/
+	    __init__.py
+	    settings.py
+	    urls.py
+	    wsgi.py	
 
-2. Update settings.py and urls.py
----------------------------------
-**On `settings.py` add:**::
-	
+2. create an app
+----------------
+
+Create an app::
+
+	python manage.py startapp uploader
+
+Now a folder(`uploader`) with these files are created::
+
+	uploader/
+	  __init__.py
+	  admin.py
+	  app.py
+	  models.py
+	  tests.py
+	  views.py
+	  migrations/
+	    __init__.py
+
+3. Update settings.py
+---------------------
+
+On `settings.py` add `'uploader'` to `INSTALLED_APPS` and add `MEDIA_ROOT` and `MEDIA_URL`, ie::
+
+	INSTALLED_APPS = (
+		...<other apps>...
+		'uploader',
+	)
+
 	MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 	MEDIA_URL = '/media/'
 
-**`urls.py` add:**::
+4. Update urls.py
+-----------------
+
+in `urls.py` add::
 
 	...<other imports>...
 	from django.conf import settings
 	from django.conf.urls.static import static
+	from uploader import views as uploader_views
 	
-	urlpatterns = patterns('',
-		url(r'^upload/$', 'uploader.views.home', name='imageupload'),
+	urlpatterns = [
 		...<other url patterns>...
-	)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+		url(r'^upload/$', uploader_views.home, name='imageupload'),
+	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-3. create an app
-----------------
-
-**Create an app: `python manage.py startapp uploader`**
-
-**Now a folder(`uploader`) with these files are created:**
-::
-
-	uploader/
-		__init__.py
-		models.py
-		admin.py
-		tests.py
-		views.py			
-		
-4. Update settings.py
----------------------
-
-**On `setting.py` -> `INSTALLED_APPS` add `'uploader',`, ie:**
-::
-
-	INSTALLED_APPS = (
-		...
-		'uploader',
-		...
-	)
 
 5. Update models
 ----------------
 
-**update `models.py`**
-::
+update `models.py`::
 
 	from django.db import models
 	from django.forms import ModelForm
 
 	class Upload(models.Model):
-	    pic = models.ImageField(""Image"", upload_to=""images/"")    
-	    upload_date=models.DateTimeField(auto_now_add =True)
+		pic = models.FileField(upload_to="images/")    
+		upload_date=models.DateTimeField(auto_now_add =True)
 
 	# FileUpload form class.
 	class UploadForm(ModelForm):
 		class Meta:
 			model = Upload
+			fields = ('pic',)
 
 
 6. Update views.py
 ------------------
 
-**update `views.py`**
-::
+update `views.py`::
 
 	from django.shortcuts import render
 	from uploader.models import UploadForm,Upload
@@ -93,7 +97,7 @@ now a folder(**sample**) is created::
 	from django.core.urlresolvers import reverse
 	# Create your views here.
 	def home(request):
-		if request.method==""POST"":
+		if request.method=="POST":
 			img = UploadForm(request.POST, request.FILES)		
 			if img.is_valid():
 				img.save()	
@@ -107,46 +111,28 @@ now a folder(**sample**) is created::
 7. create templates
 -------------------
 
-**Create a folder `templates` and create a file `home.html`:**
-::
+Create a folder **templates** in folder **uploader**, then create a file **home.html**, ie **sample/uploader/templates/home.html**::
 
-	<div style=""padding:40px;margin:40px;border:1px solid #ccc"">
+	<div style="padding:40px;margin:40px;border:1px solid #ccc">
 		<h1>picture</h1>
-		<form action=""#"" method=""post"" enctype=""multipart/form-data"">
+		<form action="#" method="post" enctype="multipart/form-data">
 			{% csrf_token %} {{form}} 
-			<input type=""submit"" value=""Upload"" />
+			<input type="submit" value="Upload" />
 		</form>
 		{% for img in images %}
-			{{forloop.counter}}.<a href=""{{ img.pic.url }}"">{{ img.pic.name }}</a>
+			{{forloop.counter}}.<a href="{{ img.pic.url }}">{{ img.pic.name }}</a>
 			({{img.upload_date}})<hr />
 		{% endfor %}
 	</div>
 
 
-Final Project tree::
+8. Syncronize database
+----------------------
 
-	sample/
-		manage.py
-		sample/
-			__init__.py
-			settings.py
-			urls.py
-			wsgi.py				
-		uploader/
-			__init__.py
-			models.py
-			views.py			
-			templates/
-				home.html 
+Syncronize database and runserver::
 
-
-8. Sync db 
-----------
-
-**Syncronize database and runserver**
-::
-
-	>> python manage.py syncdb
+	>> python manage.py makemigrations
+	>> python manage.py migrate
 	>> python manage.py runserver
 
-	visit <http://localhost.com:8000>"
+	visit <http://localhost.com:8000/upload>
