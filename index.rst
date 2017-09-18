@@ -1,13 +1,20 @@
-.. suhail blog documentation master file, created by
-   sphinx-quickstart on Sun Aug  6 15:14:45 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+==================
+Suhail's Blog Page
+==================
 
-Welcome to Suhail's Blog!
-=========================
+Hi, I am a Web Developer in Django.
+
+.. admonition:: About me
+
+	I am programming in Python, Django, CSS, Jquery etc on Ubuntu. 
+
+	My Favourite Software tools are:
+	Python - a high level programming language(like java), GIT - a revision control software, Sublime - a text editor.
+
+	Home location: Latitude:10.59975, Longitude: 76.45969, Phone Number: 0091 7356775981, Email: suhailvs@gmail.com
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   blog*
+	blog*

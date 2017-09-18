@@ -164,3 +164,4 @@ texinfo_documents = [
 
 
 
+html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'], }
