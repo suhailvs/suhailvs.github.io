@@ -1,5 +1,5 @@
-Here you can say lots of fun things about your site.
+I am programming in Python, Django, CSS, Jquery etc on Ubuntu.
 
-Maybe say a some things about yourself.
+My Favourite Software tools are: Python - a high level programming language(like java), GIT - a revision control software, Sublime - a text editor.
 
-Or maybe what you plan to blog about.
+Home location: Latitude:10.59975, Longitude: 76.45969, Phone Number: 0091 7356775981
