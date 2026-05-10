@@ -1,4 +1,4 @@
-## Let's get started
+## Building a Free Blog with GitHub Pages in Minutes
 
 ### Step 1 - Create a GitHub account
 
