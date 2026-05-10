@@ -1,5 +1,6 @@
 ## Free Claude Code with Ollama + Gemma 4 
 
++ install [claude code](https://code.claude.com/docs/en/quickstart) and [ollama](https://ollama.com/download)
 + pull image gemma4:e2b `ollama pull gemma4:e2b`
 + cd into project directory `cd ~/github/WIR`
 + load the model `ollama launch claude --model gemma4:e2b`

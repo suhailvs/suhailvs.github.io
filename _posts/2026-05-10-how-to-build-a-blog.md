@@ -43,3 +43,5 @@ You may or may not have noticed, there's already a blog post in there. Take a mi
 1. Set the title of your blog post by using a markdown header
    * Write this as the first line `## This is my first blog post`
 1. Add some content...write some random things, whatever you want
+
+Once you save (Commit) the file, after a minute or two your new post will show up on the home page, ready for everyone to read it.
