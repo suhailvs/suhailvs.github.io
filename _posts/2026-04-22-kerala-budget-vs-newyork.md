@@ -4,6 +4,8 @@
 
 ![kerala_budget](/img/keralabudget/kerala_budget.png)
 
+source -> [kerala_budget_2025_26](https://budget.kerala.gov.in/keralabudgetdoc/2025_26/BIB.pdf)
+
 ### Budget of newyork
 
 * **FY 2026 budget:** about **$115.9 billion**.
