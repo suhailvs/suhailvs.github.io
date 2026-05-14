@@ -16,7 +16,7 @@ SQLite/PostgreSQL
 myproject/              # Django project
 ├── myapp
 ├── manage.py    
-└── electron/       # Electron app
+└── frontend/       # Electron app
     ├── main.js
     └── package.json
 ```
@@ -26,9 +26,8 @@ myproject/              # Django project
 Go back:
 
 ```bash
-cd ..
-mkdir electron
-cd electron
+mkdir frontend
+cd frontend
 ```
 
 Initialize:
