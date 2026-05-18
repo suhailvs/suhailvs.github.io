@@ -14,14 +14,14 @@ Create an account.
 
 On Ubuntu/Debian:
 
-```bash id="r46qot"
+```bash
 sudo apt update
 sudo apt install git-lfs
 ```
 
 Initialize:
 
-```bash id="88rb0s"
+```bash
 git lfs install
 ```
 
@@ -54,13 +54,13 @@ Copy the token. This token can be used when push it git repo
 
 Replace USERNAME and DATASET:
 
-```bash id="2vrxeh"
+```bash
 git clone https://huggingface.co/datasets/USERNAME/DATASET
 ```
 
 Example:
 
-```bash id="99us4l"
+```bash
 git clone https://huggingface.co/datasets/suhailvs/kerala-html-dataset
 ```
 
@@ -69,7 +69,7 @@ git clone https://huggingface.co/datasets/suhailvs/kerala-html-dataset
 
 # 6. Commit and Push
 
-```bash id="9t8rfm"
+```bash
 cd kerala-html-dataset
 
 git add .
