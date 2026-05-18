@@ -1,4 +1,4 @@
-## Hugging Face to store large files in git.
+## Hugging Face to store large files in git
 
 # 1. Create Account
 

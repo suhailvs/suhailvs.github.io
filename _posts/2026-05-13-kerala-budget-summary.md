@@ -1,4 +1,4 @@
-## Summary of Kerala Budget 2025–26
+## Summary of the Kerala Budget 2025–26
 
 * source -> [kerala_budget_2025_26](https://budget.kerala.gov.in/keralabudgetdoc/2025_26/BIB.pdf)
 
