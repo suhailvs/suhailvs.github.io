@@ -78,3 +78,11 @@ git push
 ```
 
 Large files are automatically handled by Git LFS.
+
+
+# 7. optional login from terminal
+
+```
+pip install huggingface_hub
+huggingface-cli login
+```
